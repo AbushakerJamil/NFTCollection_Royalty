@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Aurora Vault #001</title>
+  <desc id="desc">Generative-style abstract NFT: layered polygons, glass effect, animated gradient.</desc>
+
+  <defs>
+    <!-- animated gradient -->
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7b61ff">
+        <animate attributeName="stop-color" dur="8s" repeatCount="indefinite"
+                 values="#7b61ff;#00d4ff;#ff6b6b;#7b61ff"/>
+      </stop>
+      <stop offset="50%" stop-color="#00d4ff">
+        <animate attributeName="stop-color" dur="8s" repeatCount="indefinite"
+                 values="#00d4ff;#ff6b6b;#7b61ff;#00d4ff"/>
+      </stop>
+      <stop offset="100%" stop-color="#ff6b6b">
+        <animate attributeName="stop-color" dur="8s" repeatCount="indefinite"
+                 values="#ff6b6b;#7b61ff;#00d4ff;#ff6b6b"/>
+      </stop>
+    </linearGradient>
+
+    <!-- subtle noise texture -->
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend mode="overlay"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.08"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- blur -->
+    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feComposite in="SourceGraphic" in2="b" operator="over"/>
+    </filter>
+
+    <!-- shadow -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="18" stdDeviation="30" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- stroke gradient -->
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- shape -->
+    <g id="shape">
+      <polygon points="0,-180 155,-60 95,145 -95,145 -155,-60"/>
+    </g>
+  </defs>
+
+  <!-- background -->
+  <rect width="100%" height="100%" fill="#0b0f1a"/>
+  <rect width="100%" height="100%" fill="url(#g1)" opacity="0.15"/>
+
+  <!-- glowing orb -->
+  <g transform="translate(512,380)">
+    <circle r="360" fill="url(#g1)" opacity="0.25" filter="url(#softBlur)"/>
+  </g>
+
+  <!-- layered shapes -->
+  <g transform="translate(512,560)">
+    <g transform="rotate(-10)">
+      <use href="#shape" fill="rgba(255,255,255,0.04)" transform="scale(2.4)"/>
+      <use href="#shape" fill="url(#g1)" transform="scale(1.6) rotate(12) translate(0,-10)" style="mix-blend-mode:screen"/>
+      <use href="#shape" fill="rgba(11,15,26,0.7)" transform="scale(1.9) rotate(-8) translate(0,14)"/>
+      <use href="#shape" fill="none" stroke="url(#edge)" stroke-width="2" transform="scale(2.4)"/>
+    </g>
+
+    <!-- crystal core -->
+    <g filter="url(#shadow)">
+      <polygon points="-120,-12 -40,-140 120,-12 0,160" fill="white" opacity="0.06" transform="scale(1.8) rotate(-6)"/>
+      <polygon points="-120,-12 -40,-140 120,-12 0,160" fill="url(#g1)" opacity="0.9" transform="scale(1.1) rotate(-4)" style="mix-blend-mode:overlay"/>
+      <polygon points="-80,-8 -26,-85 80,-8 0,100" fill="rgba(255,255,255,0.08)" transform="scale(1.1)"/>
+    </g>
+  </g>
+
+  <!-- rings -->
+  <g transform="translate(820,180)">
+    <circle r="84" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
+    <circle r="60" fill="none" stroke="url(#g1)" stroke-width="4" stroke-dasharray="6 8">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- accent -->
+  <g transform="translate(160,820) rotate(-18)">
+    <rect x="-120" y="-30" width="240" height="60" rx="14" fill="url(#g1)" opacity="0.18"/>
+    <rect x="-120" y="-30" width="240" height="60" rx="14" fill="none" stroke="rgba(255,255,255,0.05)"/>
+  </g>
+
+  <!-- grain -->
+  <rect width="100%" height="100%" filter="url(#grain)" opacity="0.06"/>
+
+  <!-- signature -->
+  <g transform="translate(48,968)">
+    <text x="0" y="0" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="22" fill="#dfe7ff" opacity="0.9">
+      Aurora Vault
+    </text>
+    <text x="0" y="26" font-family="Mono, monospace" font-size="14" fill="#b6c7ff" opacity="0.75">
+      #001 · 1/1 · 1024×1024
+    </text>
+  </g>
+</svg>
