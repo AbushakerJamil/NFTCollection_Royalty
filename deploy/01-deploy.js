@@ -1,39 +1,47 @@
 const { network } = require("hardhat");
-const { developmentChain } = require("../helper-hardhat-config");
+const { developmentChains } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify");
-
-// Sepolia addresses
-const WETH_USD_PRICE_FEED = "0x694AA1769357215DE4FAC081bf1f309aDC325306";
-const WBTC_USD_PRICE_FEED = "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43";
-const DSC_ADDRESS = "0x04ce3AED3189d84d0F1E675C3A31E28EE87B376A";
-const WETH = "0xdd13E55209Fd76AfE204dBda4007C227904f0a81";
-const WBTC = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  log("Deploying DSCEngine...");
+  log("----------------------------------------------------");
+  log("Deploying MyNFTCollection...");
+  log("----------------------------------------------------");
 
-  const tokenAddresses = [WETH, WBTC];
-  const priceFeedAddresses = [WETH_USD_PRICE_FEED, WBTC_USD_PRICE_FEED];
-  const args = [tokenAddresses, priceFeedAddresses, DSC_ADDRESS];
+  // NFT Collection Configuration
+  const NFT_NAME = "My Amazing NFT Collection";
+  const NFT_SYMBOL = "MANFT";
+  const BASE_URI = "";
 
-  const dscEngine = await deploy("DSCEngine", {
-    contract: "contracts/DSCEngine.sol:DSCEngine",
+  const args = [NFT_NAME, NFT_SYMBOL, BASE_URI];
+
+  const nftCollection = await deploy("NFTCollection", {
+    contract: "contracts/NFTCollection.sol:NFTCollection",
     from: deployer,
     args: args,
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
 
-  log(`DSCEngine deployed at: ${dscEngine.address}`);
-  log("________________________________________");
+  log(`NFTCollection deployed at: ${nftCollection.address}`);
+  log("----------------------------------------------------");
 
-  if (!developmentChain.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-    log("Verifying on Etherscan...");
-    await verify(dscEngine.address, args);
+  // Verify contract on Etherscan
+  if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+    log(" Verifying contract on Etherscan...");
+    await verify(nftCollection.address, args);
+    log("✅Contract verified successfully!");
   }
+
+  // Post-deployment setup
+  log("----------------------------------------------------");
+  log("📋 Post-Deployment Information:");
+  log(`Contract Address: ${nftCollection.address}`);
+  log(`Network: ${network.name}`);
+  log(`Deployer: ${deployer}`);
+
 };
 
-module.exports.tags = ["all", "dscengine"];
+module.exports.tags = ["all", "nft", "main"];
