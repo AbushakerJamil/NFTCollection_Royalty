@@ -29,8 +29,8 @@ A production-ready ERC-721 NFT smart contract with advanced features including m
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/my-nft-collection.git
-cd my-nft-collection
+git clone https://github.com/AbushakerJamil/NFTCollection_Royalty
+cd NFTCollection_Royalty
 ```
 
 ### 2. Install Dependencies
